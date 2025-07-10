@@ -1,4 +1,6 @@
 
+using System.ComponentModel.DataAnnotations;
+
 namespace TodoApi.Models;
 
 /// <summary>
@@ -7,7 +9,9 @@ namespace TodoApi.Models;
 /// </summary>
 public class Todo
 {
+    [Required]
     public int Id { get; set; }
+    [Required]
     public string? Name { get; set; }
     public bool IsComplete { get; set; }
 }
