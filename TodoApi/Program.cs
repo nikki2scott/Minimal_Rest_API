@@ -8,7 +8,7 @@ builder.Services.AddDatabaseDeveloperPageExceptionFilter();
 
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddOpenApiDocument(config =>
-{v
+{
     config.DocumentName = "TodoAPI";
     config.Title = "TodoAPI v1";
     config.Version = "v1";
@@ -40,9 +40,17 @@ app.MapGet("/todoitems/{id}", async (int id, TodoDb db) =>
             ? Results.Ok(todo)
             : Results.NotFound());
 
-app.MapPost("/todoitems", async (Todo todo, TodoDb db) =>
+app.MapPost("/todoitems", async (TodoItemDTO todo, TodoDb db) =>
 {
-    db.Todos.Add(todo);
+    // TODO: when back in class on Tuesday - lets work on the ID property
+    var todoToAdd = new Todo
+    {
+        Name = todo.Name,
+        IsComplete = todo.IsComplete,
+        Id = todo.Id,
+    };
+
+    db.Todos.Add(todoToAdd);
     await db.SaveChangesAsync();
 
     return Results.Created($"/todoitems/{todo.Id}", todo);
